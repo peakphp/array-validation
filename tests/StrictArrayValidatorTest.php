@@ -45,7 +45,7 @@ class StrictArrayValidatorTest extends TestCase
      */
     public function testWithException()
     {
-//        $this->expectException(ArrayValidationException::class);
+        $this->expectException(ArrayValidationException::class);
 
         $strictValidator = new StrictArrayValidator(new ArrayValidation(), $this->data1, 'my data');
 
