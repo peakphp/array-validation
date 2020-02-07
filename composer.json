@@ -1,0 +1,19 @@
+{
+    "name": "peak/array-validation",
+    "description": "Validation utilities for array structure",
+    "keywords": ["peak", "array", "validation"],
+    "license": "MIT",
+    "type": "library",
+    "require": {
+        "php": ">=7.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.2",
+        "phpstan/phpstan": "^0.11"
+    },
+    "autoload": {
+        "psr-4": {
+            "Peak\\ArrayValidation\\": "src/"
+        }
+    }
+}

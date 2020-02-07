@@ -1,0 +1,29 @@
+# ignore packaged files
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+.phpunit.result.cache
+composer.lock
+
+# ignore app environment files
+.prod
+.staging
+.testing
+.dev
+.env
+
+# docker
+docker-compose.yml
+Dockerfile
+DockerfileShell
+
+# folders to ignore
+/.idea
+/_temp
+/vendor
+/tests/_report
