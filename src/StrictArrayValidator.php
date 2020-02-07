@@ -27,8 +27,8 @@ class StrictArrayValidator
      * @var array
      */
     private $messages = [
-        'expected' => '{dataName} invalid request data, expected {expectedType} [{keysExpected}], received [{keysReceived}]',
-        'type' => '{dataName} invalid type for key [{key}], an {expectedType} is expected',
+        'expected' => '{dataName}invalid data, expected {expectedType} [{keysExpected}], received [{keysReceived}]',
+        'type' => '{dataName}invalid type for key [{key}], an {expectedType} is expected',
     ];
 
     /**
@@ -231,7 +231,7 @@ class StrictArrayValidator
     private function getExceptionDataName(): ?string
     {
         if (isset($this->dataName)) {
-            return '['. $this->dataName.']';
+            return '['. $this->dataName.'] ';
         }
         return null;
     }
