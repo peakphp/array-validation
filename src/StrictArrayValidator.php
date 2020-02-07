@@ -28,7 +28,7 @@ class StrictArrayValidator
      */
     private $messages = [
         'expected' => '{dataName}invalid data, expected {expectedType} [{keysExpected}], received [{keysReceived}]',
-        'type' => '{dataName}invalid type for key [{key}], an {expectedType} is expected',
+        'type' => '{dataName}invalid type for key [{key}], type {expectedType} is expected',
     ];
 
     /**
