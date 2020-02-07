@@ -26,4 +26,4 @@ DockerfileShell
 /.idea
 /_temp
 /vendor
-/tests/_report
+/tests/_reports
