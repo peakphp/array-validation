@@ -180,15 +180,19 @@ class StrictArrayValidator
     }
 
     /**
-     * @param array $keys
+     * @param string $key
      * @param bool $acceptNull
      * @return $this
      * @throws ArrayValidationException
      */
-    public function expectKeysToBeInteger(array $keys, bool $acceptNull = false)
+    public function expectKeyToBeBoolean(string $key, bool $acceptNull = false)
     {
-        foreach ($keys as $key) {
-            $this->expectKeyToBeInteger($key, $acceptNull);
+        if (array_key_exists($key, $this->data) && $this->arrayValidation->expectKeyToBeBoolean($this->data, $key, $acceptNull) === false) {
+            $message = $this->getErrorMessage('type', [
+                'key' => $key,
+                'expectedType' => 'boolean',
+            ]);
+            throw new ArrayValidationException($message);
         }
         return $this;
     }
@@ -208,19 +212,57 @@ class StrictArrayValidator
     }
 
     /**
-     * @param string $key
+     * @param array $keys
      * @param bool $acceptNull
      * @return $this
      * @throws ArrayValidationException
      */
-    public function expectKeyToBeBoolean(string $key, bool $acceptNull = false)
+    public function expectKeysToBeInteger(array $keys, bool $acceptNull = false)
     {
-        if (array_key_exists($key, $this->data) && $this->arrayValidation->expectKeyToBeBoolean($this->data, $key, $acceptNull) === false) {
-            $message = $this->getErrorMessage('type', [
-                'key' => $key,
-                'expectedType' => 'boolean',
-            ]);
-            throw new ArrayValidationException($message);
+        foreach ($keys as $key) {
+            $this->expectKeyToBeInteger($key, $acceptNull);
+        }
+        return $this;
+    }
+
+    /**
+     * @param array $keys
+     * @param bool $acceptNull
+     * @return $this
+     * @throws ArrayValidationException
+     */
+    public function expectKeysToBeFloat(array $keys, bool $acceptNull = false)
+    {
+        foreach ($keys as $key) {
+            $this->expectKeyToBeFloat($key, $acceptNull);
+        }
+        return $this;
+    }
+
+    /**
+     * @param array $keys
+     * @param bool $acceptNull
+     * @return $this
+     * @throws ArrayValidationException
+     */
+    public function expectKeysToBeBoolean(array $keys, bool $acceptNull = false)
+    {
+        foreach ($keys as $key) {
+            $this->expectKeyToBeBoolean($key, $acceptNull);
+        }
+        return $this;
+    }
+
+    /**
+     * @param array $keys
+     * @param bool $acceptNull
+     * @return $this
+     * @throws ArrayValidationException
+     */
+    public function expectKeysToBeArray(array $keys, bool $acceptNull = false)
+    {
+        foreach ($keys as $key) {
+            $this->expectKeyToBeArray($key, $acceptNull);
         }
         return $this;
     }
