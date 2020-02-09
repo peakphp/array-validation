@@ -1,3 +1,9 @@
+VERSION 1.1.0
+-------------
+Release date: ?
+
+ - added methods expectKeysToBeArray(), expectKeysToBeBoolean() and expectKeysToBeFloat() to StrictArrayValidator
+
 VERSION 1.0.0
 -------------
 Release date: 2020-02-07
