@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Peak\ArrayValidation;
 
-use Peak\ArrayValidation\Exception\ArrayValidationException;
+use Peak\ArrayValidation\Exception\InvalidStructureException;
+use Peak\ArrayValidation\Exception\InvalidTypeException;
 
 class StrictArrayValidator
 {
@@ -32,22 +33,25 @@ class StrictArrayValidator
     ];
 
     /**
-     * ArrayValidationHelper constructor.
-     * @param ArrayValidation $arrayValidation
+     * StrictArrayValidator constructor.
      * @param array $data
      * @param string|null $dataName
+     * @param ArrayValidation|null $arrayValidation
      */
-    public function __construct(ArrayValidation $arrayValidation, array $data, string $dataName = null)
+    public function __construct(array $data, string $dataName = null, ArrayValidation $arrayValidation = null)
     {
-        $this->arrayValidation = $arrayValidation;
         $this->data = $data;
         $this->dataName = $dataName;
+        if (!isset($arrayValidation)) {
+            $arrayValidation = new ArrayValidation();
+        }
+        $this->arrayValidation = $arrayValidation;
     }
 
     /**
      * @param array $keysName
      * @return $this
-     * @throws ArrayValidationException
+     * @throws InvalidStructureException
      */
     public function expectExactlyKeys(array $keysName)
     {
@@ -60,7 +64,7 @@ class StrictArrayValidator
                 'keysExpected' => implode(', ', $keysName),
                 'keysReceived' => implode(', ', $keysReceived)
             ]);
-            throw new ArrayValidationException($message);
+            throw new InvalidStructureException($message);
         }
         return $this;
     }
@@ -68,7 +72,7 @@ class StrictArrayValidator
     /**
      * @param array $keysName
      * @return $this
-     * @throws ArrayValidationException
+     * @throws InvalidStructureException
      */
     public function expectAtLeastKeys(array $keysName)
     {
@@ -81,7 +85,7 @@ class StrictArrayValidator
                 'keysExpected' => implode(', ', $keysName),
                 'keysReceived' => implode(', ', $keysReceived)
             ]);
-            throw new ArrayValidationException($message);
+            throw new InvalidStructureException($message);
         }
         return $this;
     }
@@ -89,7 +93,7 @@ class StrictArrayValidator
     /**
      * @param array $keysName
      * @return $this
-     * @throws ArrayValidationException
+     * @throws InvalidStructureException
      */
     public function expectOnlyKeys(array $keysName)
     {
@@ -102,7 +106,7 @@ class StrictArrayValidator
                 'keysExpected' => implode(', ', $keysName),
                 'keysReceived' => implode(', ', $keysReceived)
             ]);
-            throw new ArrayValidationException($message);
+            throw new InvalidStructureException($message);
         }
         return $this;
     }
@@ -111,7 +115,7 @@ class StrictArrayValidator
      * @param string $key
      * @param bool $acceptNull
      * @return $this
-     * @throws ArrayValidationException
+     * @throws InvalidTypeException
      */
     public function expectKeyToBeArray(string $key, bool $acceptNull = false)
     {
@@ -120,7 +124,7 @@ class StrictArrayValidator
                 'key' => $key,
                 'expectedType' => 'array',
             ]);
-            throw new ArrayValidationException($message);
+            throw new InvalidTypeException($message);
         }
         return $this;
     }
@@ -129,7 +133,7 @@ class StrictArrayValidator
      * @param string $key
      * @param bool $acceptNull
      * @return $this
-     * @throws ArrayValidationException
+     * @throws InvalidTypeException
      */
     public function expectKeyToBeInteger(string $key, bool $acceptNull = false)
     {
@@ -138,7 +142,7 @@ class StrictArrayValidator
                 'key' => $key,
                 'expectedType' => 'integer',
             ]);
-            throw new ArrayValidationException($message);
+            throw new InvalidTypeException($message);
         }
         return $this;
     }
@@ -147,7 +151,7 @@ class StrictArrayValidator
      * @param string $key
      * @param bool $acceptNull
      * @return $this
-     * @throws ArrayValidationException
+     * @throws InvalidTypeException
      */
     public function expectKeyToBeFloat(string $key, bool $acceptNull = false)
     {
@@ -156,7 +160,7 @@ class StrictArrayValidator
                 'key' => $key,
                 'expectedType' => 'float',
             ]);
-            throw new ArrayValidationException($message);
+            throw new InvalidTypeException($message);
         }
         return $this;
     }
@@ -165,7 +169,7 @@ class StrictArrayValidator
      * @param string $key
      * @param bool $acceptNull
      * @return $this
-     * @throws ArrayValidationException
+     * @throws InvalidTypeException
      */
     public function expectKeyToBeString(string $key, bool $acceptNull = false)
     {
@@ -174,7 +178,7 @@ class StrictArrayValidator
                 'key' => $key,
                 'expectedType' => 'string',
             ]);
-            throw new ArrayValidationException($message);
+            throw new InvalidTypeException($message);
         }
         return $this;
     }
@@ -183,7 +187,7 @@ class StrictArrayValidator
      * @param string $key
      * @param bool $acceptNull
      * @return $this
-     * @throws ArrayValidationException
+     * @throws InvalidTypeException
      */
     public function expectKeyToBeBoolean(string $key, bool $acceptNull = false)
     {
@@ -192,7 +196,7 @@ class StrictArrayValidator
                 'key' => $key,
                 'expectedType' => 'boolean',
             ]);
-            throw new ArrayValidationException($message);
+            throw new InvalidTypeException($message);
         }
         return $this;
     }
@@ -201,7 +205,7 @@ class StrictArrayValidator
      * @param array $keys
      * @param bool $acceptNull
      * @return $this
-     * @throws ArrayValidationException
+     * @throws InvalidTypeException
      */
     public function expectKeysToBeString(array $keys, bool $acceptNull = false)
     {
@@ -215,7 +219,7 @@ class StrictArrayValidator
      * @param array $keys
      * @param bool $acceptNull
      * @return $this
-     * @throws ArrayValidationException
+     * @throws InvalidTypeException
      */
     public function expectKeysToBeInteger(array $keys, bool $acceptNull = false)
     {
@@ -229,7 +233,7 @@ class StrictArrayValidator
      * @param array $keys
      * @param bool $acceptNull
      * @return $this
-     * @throws ArrayValidationException
+     * @throws InvalidTypeException
      */
     public function expectKeysToBeFloat(array $keys, bool $acceptNull = false)
     {
@@ -243,7 +247,7 @@ class StrictArrayValidator
      * @param array $keys
      * @param bool $acceptNull
      * @return $this
-     * @throws ArrayValidationException
+     * @throws InvalidTypeException
      */
     public function expectKeysToBeBoolean(array $keys, bool $acceptNull = false)
     {
@@ -257,7 +261,7 @@ class StrictArrayValidator
      * @param array $keys
      * @param bool $acceptNull
      * @return $this
-     * @throws ArrayValidationException
+     * @throws InvalidTypeException
      */
     public function expectKeysToBeArray(array $keys, bool $acceptNull = false)
     {
