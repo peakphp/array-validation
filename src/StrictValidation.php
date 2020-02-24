@@ -7,12 +7,12 @@ namespace Peak\ArrayValidation;
 use Peak\ArrayValidation\Exception\InvalidStructureException;
 use Peak\ArrayValidation\Exception\InvalidTypeException;
 
-class StrictArrayValidator
+class StrictValidation implements ValidationInterface
 {
     /**
-     * @var ArrayValidation
+     * @var Validator
      */
-    private $arrayValidation;
+    private $validator;
 
     /**
      * @var array
@@ -28,40 +28,41 @@ class StrictArrayValidator
      * @var array
      */
     private $messages = [
+        'expectedN' => '{dataName}invalid data, expected {nExpected} element(s), received {nReceived} element(s)',
         'expected' => '{dataName}invalid data, expected {expectedType} [{keysExpected}], received [{keysReceived}]',
         'type' => '{dataName}invalid type for key [{key}], type {expectedType} is expected',
     ];
 
     /**
-     * StrictArrayValidator constructor.
+     * StrictValidation constructor.
      * @param array $data
      * @param string|null $dataName
-     * @param ArrayValidation|null $arrayValidation
+     * @param Validator|null $validator
      */
-    public function __construct(array $data, string $dataName = null, ArrayValidation $arrayValidation = null)
+    public function __construct(array $data, string $dataName = null, Validator $validator = null)
     {
         $this->data = $data;
         $this->dataName = $dataName;
-        if (!isset($arrayValidation)) {
-            $arrayValidation = new ArrayValidation();
+        if (!isset($validator)) {
+            $validator = new Validator();
         }
-        $this->arrayValidation = $arrayValidation;
+        $this->validator = $validator;
     }
 
     /**
-     * @param array $keysName
+     * @param array $keys
      * @return $this
      * @throws InvalidStructureException
      */
-    public function expectExactlyKeys(array $keysName)
+    public function expectExactlyKeys(array $keys)
     {
-        if ($this->arrayValidation->expectExactlyKeys($this->data, $keysName) === false) {
+        if ($this->validator->expectExactlyKeys($this->data, $keys) === false) {
             $keysReceived = array_keys($this->data);
-            natsort($keysName);
+            natsort($keys);
             natsort($keysReceived);
             $message = $this->getErrorMessage('expected', [
                 'expectedType' => 'exactly keys',
-                'keysExpected' => implode(', ', $keysName),
+                'keysExpected' => implode(', ', $keys),
                 'keysReceived' => implode(', ', $keysReceived)
             ]);
             throw new InvalidStructureException($message);
@@ -70,19 +71,19 @@ class StrictArrayValidator
     }
 
     /**
-     * @param array $keysName
+     * @param array $keys
      * @return $this
      * @throws InvalidStructureException
      */
-    public function expectAtLeastKeys(array $keysName)
+    public function expectAtLeastKeys(array $keys)
     {
-        if ($this->arrayValidation->expectAtLeastKeys($this->data, $keysName) === false) {
+        if ($this->validator->expectAtLeastKeys($this->data, $keys) === false) {
             $keysReceived = array_keys($this->data);
-            natsort($keysName);
+            natsort($keys);
             natsort($keysReceived);
             $message = $this->getErrorMessage('expected', [
                 'expectedType' => 'at least keys',
-                'keysExpected' => implode(', ', $keysName),
+                'keysExpected' => implode(', ', $keys),
                 'keysReceived' => implode(', ', $keysReceived)
             ]);
             throw new InvalidStructureException($message);
@@ -91,20 +92,61 @@ class StrictArrayValidator
     }
 
     /**
-     * @param array $keysName
+     * @param array $keys
      * @return $this
      * @throws InvalidStructureException
      */
-    public function expectOnlyKeys(array $keysName)
+    public function expectOnlyKeys(array $keys)
     {
-        if ($this->arrayValidation->expectOnlyKeys($this->data, $keysName) === false) {
+        if ($this->validator->expectOnlyKeys($this->data, $keys) === false) {
             $keysReceived = array_keys($this->data);
-            natsort($keysName);
+            natsort($keys);
             natsort($keysReceived);
             $message = $this->getErrorMessage('expected', [
                 'expectedType' => 'only keys',
-                'keysExpected' => implode(', ', $keysName),
+                'keysExpected' => implode(', ', $keys),
                 'keysReceived' => implode(', ', $keysReceived)
+            ]);
+            throw new InvalidStructureException($message);
+        }
+        return $this;
+    }
+
+    /**
+     * @param array $keys
+     * @return $this
+     * @throws InvalidStructureException
+     */
+    public function expectOnlyOneFromKeys(array $keys)
+    {
+        if ($this->validator->expectOnlyOneFromKeys($this->data, $keys) === false) {
+            $keysReceived = array_keys($this->data);
+            natsort($keys);
+            natsort($keysReceived);
+            $message = $this->getErrorMessage('expected', [
+                'expectedType' => 'only one of keys',
+                'keysExpected' => implode(', ', $keys),
+                'keysReceived' => implode(', ', $keysReceived)
+            ]);
+            throw new InvalidStructureException($message);
+        }
+        return $this;
+    }
+
+    /**
+     * @param int $n
+     * @return $this
+     * @throws InvalidStructureException
+     */
+    public function expectNKeys(int $n)
+    {
+        if ($this->validator->expectNKeys($this->data, $n) === false) {
+            $keysReceived = array_keys($this->data);
+            natsort($keysReceived);
+            $message = $this->getErrorMessage('expectedN', [
+                'expectedType' => 'only N keys',
+                'nExpected' => $n,
+                'nReceived' => count($keysReceived)
             ]);
             throw new InvalidStructureException($message);
         }
@@ -119,7 +161,7 @@ class StrictArrayValidator
      */
     public function expectKeyToBeArray(string $key, bool $acceptNull = false)
     {
-        if (array_key_exists($key, $this->data) && $this->arrayValidation->expectKeyToBeArray($this->data, $key, $acceptNull) === false) {
+        if (array_key_exists($key, $this->data) && $this->validator->expectKeyToBeArray($this->data, $key, $acceptNull) === false) {
             $message = $this->getErrorMessage('type', [
                 'key' => $key,
                 'expectedType' => 'array',
@@ -137,7 +179,7 @@ class StrictArrayValidator
      */
     public function expectKeyToBeInteger(string $key, bool $acceptNull = false)
     {
-        if (array_key_exists($key, $this->data) && $this->arrayValidation->expectKeyToBeInteger($this->data, $key, $acceptNull) === false) {
+        if (array_key_exists($key, $this->data) && $this->validator->expectKeyToBeInteger($this->data, $key, $acceptNull) === false) {
             $message = $this->getErrorMessage('type', [
                 'key' => $key,
                 'expectedType' => 'integer',
@@ -155,7 +197,7 @@ class StrictArrayValidator
      */
     public function expectKeyToBeFloat(string $key, bool $acceptNull = false)
     {
-        if (array_key_exists($key, $this->data) && $this->arrayValidation->expectKeyToBeFloat($this->data, $key, $acceptNull) === false) {
+        if (array_key_exists($key, $this->data) && $this->validator->expectKeyToBeFloat($this->data, $key, $acceptNull) === false) {
             $message = $this->getErrorMessage('type', [
                 'key' => $key,
                 'expectedType' => 'float',
@@ -173,7 +215,7 @@ class StrictArrayValidator
      */
     public function expectKeyToBeString(string $key, bool $acceptNull = false)
     {
-        if (array_key_exists($key, $this->data) && $this->arrayValidation->expectKeyToBeString($this->data, $key, $acceptNull) === false) {
+        if (array_key_exists($key, $this->data) && $this->validator->expectKeyToBeString($this->data, $key, $acceptNull) === false) {
             $message = $this->getErrorMessage('type', [
                 'key' => $key,
                 'expectedType' => 'string',
@@ -191,7 +233,7 @@ class StrictArrayValidator
      */
     public function expectKeyToBeBoolean(string $key, bool $acceptNull = false)
     {
-        if (array_key_exists($key, $this->data) && $this->arrayValidation->expectKeyToBeBoolean($this->data, $key, $acceptNull) === false) {
+        if (array_key_exists($key, $this->data) && $this->validator->expectKeyToBeBoolean($this->data, $key, $acceptNull) === false) {
             $message = $this->getErrorMessage('type', [
                 'key' => $key,
                 'expectedType' => 'boolean',

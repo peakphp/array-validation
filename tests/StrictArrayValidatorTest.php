@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Peak\ArrayValidation\Exception\InvalidStructureException;
 use Peak\ArrayValidation\Exception\InvalidTypeException;
-use Peak\ArrayValidation\StrictArrayValidator;
+use Peak\ArrayValidation\StrictValidation;
 use PHPUnit\Framework\TestCase;
 
 class StrictArrayValidatorTest extends TestCase
@@ -34,7 +34,7 @@ class StrictArrayValidatorTest extends TestCase
      */
     public function testNoException1()
     {
-        $strictValidator = new StrictArrayValidator($this->data1);
+        $strictValidator = new StrictValidation($this->data1);
 
         $strictValidator
             ->expectAtLeastKeys(['title', 'content'])
@@ -51,7 +51,7 @@ class StrictArrayValidatorTest extends TestCase
      */
     public function testNoException2()
     {
-        $strictValidator = new StrictArrayValidator($this->data2);
+        $strictValidator = new StrictValidation($this->data2);
 
         $strictValidator
             ->expectOnlyKeys(['id', 'title', 'isPrivate', 'tags', 'money'])
@@ -70,8 +70,38 @@ class StrictArrayValidatorTest extends TestCase
     public function testOnlyKeysException()
     {
         $this->expectException(InvalidStructureException::class);
-        $strictValidator = new StrictArrayValidator(['title' => 1]);
+        $strictValidator = new StrictValidation(['title' => 1]);
         $strictValidator->expectOnlyKeys(['name']);
+    }
+
+    /**
+     * @throws InvalidStructureException
+     */
+    public function testNKeysException()
+    {
+        $this->expectException(InvalidStructureException::class);
+        $strictValidator = new StrictValidation(['title' => 1, 'description' => 'foo']);
+        $strictValidator->expectNKeys(1);
+    }
+
+    /**
+     * @throws InvalidStructureException
+     */
+    public function testNKeysNoException()
+    {
+        $strictValidator = new StrictValidation(['title' => 1]);
+        $strictValidator->expectNKeys(1);
+        $this->assertTrue(true);
+    }
+
+    /**
+     * @throws InvalidStructureException
+     */
+    public function testOnlyOneFromKeysException()
+    {
+        $this->expectException(InvalidStructureException::class);
+        $strictValidator = new StrictValidation(['title' => 'x', 'description' => 'foo']);
+        $strictValidator->expectOnlyOneFromKeys(['title', 'description']);
     }
 
     /**
@@ -80,8 +110,18 @@ class StrictArrayValidatorTest extends TestCase
     public function testExactlyKeysException()
     {
         $this->expectException(InvalidStructureException::class);
-        $strictValidator = new StrictArrayValidator(['title' => 1]);
+        $strictValidator = new StrictValidation(['title' => 1]);
         $strictValidator->expectExactlyKeys(['name']);
+    }
+
+    /**
+     * @throws InvalidStructureException
+     */
+    public function testOnlyOneFromKeysNoException()
+    {
+        $strictValidator = new StrictValidation(['title' => 1]);
+        $strictValidator->expectOnlyOneFromKeys(['name', 'title']);
+        $this->assertTrue(true);
     }
 
     /**
@@ -90,7 +130,7 @@ class StrictArrayValidatorTest extends TestCase
     public function testInvalidStringException()
     {
         $this->expectException(InvalidTypeException::class);
-        $strictValidator = new StrictArrayValidator(['title' => 1]);
+        $strictValidator = new StrictValidation(['title' => 1]);
         $strictValidator->expectKeyToBeString('title');
     }
 
@@ -100,7 +140,7 @@ class StrictArrayValidatorTest extends TestCase
     public function testInvalidArrayException()
     {
         $this->expectException(InvalidTypeException::class);
-        $strictValidator = new StrictArrayValidator(['tags' => 1]);
+        $strictValidator = new StrictValidation(['tags' => 1]);
         $strictValidator->expectKeyToBeArray('tags');
     }
     /**
@@ -109,7 +149,7 @@ class StrictArrayValidatorTest extends TestCase
     public function testInvalidBooleanException()
     {
         $this->expectException(InvalidTypeException::class);
-        $strictValidator = new StrictArrayValidator(['isPrivate' => 1]);
+        $strictValidator = new StrictValidation(['isPrivate' => 1]);
         $strictValidator->expectKeyToBeBoolean('isPrivate');
     }
 
@@ -119,7 +159,7 @@ class StrictArrayValidatorTest extends TestCase
     public function testInvalidFloatException()
     {
         $this->expectException(InvalidTypeException::class);
-        $strictValidator = new StrictArrayValidator(['money' => 1]);
+        $strictValidator = new StrictValidation(['money' => 1]);
         $strictValidator->expectKeyToBeFloat('money');
     }
 
@@ -131,7 +171,7 @@ class StrictArrayValidatorTest extends TestCase
     {
         $this->expectException(InvalidTypeException::class);
 
-        $strictValidator = new StrictArrayValidator($this->data1);
+        $strictValidator = new StrictValidation($this->data1);
 
         $strictValidator
             ->expectAtLeastKeys(['title', 'content'])
@@ -150,7 +190,7 @@ class StrictArrayValidatorTest extends TestCase
     {
         $this->expectException(InvalidStructureException::class);
 
-        $strictValidator = new StrictArrayValidator($this->data3, 'my data');
+        $strictValidator = new StrictValidation($this->data3, 'my data');
 
         $strictValidator
             ->expectAtLeastKeys(['title', 'content'])

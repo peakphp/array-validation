@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Peak\ArrayValidation;
 
-class ArrayValidation
+class Validator implements ValidatorInterface
 {
     /**
      * The array should match all expected keys, no more, no less
@@ -80,7 +80,7 @@ class ArrayValidation
      * @param int $n
      * @return bool
      */
-    public function expectXElement(array $array, int $n): bool
+    public function expectNKeys(array $array, int $n): bool
     {
         return ($n == count($array));
     }
@@ -98,6 +98,22 @@ class ArrayValidation
 
     /**
      * @param array $array
+     * @param array $keys
+     * @param bool $acceptNull
+     * @return bool
+     */
+    public function expectKeysToBeArray(array $array, array $keys, bool $acceptNull = false): bool
+    {
+        foreach ($keys as $key) {
+            if ($this->expectKeyToBeArray($array, $key, $acceptNull) === false) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * @param array $array
      * @param string $key
      * @param bool $acceptNull
      * @return bool
@@ -105,6 +121,22 @@ class ArrayValidation
     public function expectKeyToBeInteger(array $array, string $key, bool $acceptNull = false): bool
     {
         return $this->internalTypeValidation('is_integer', $array, $key, $acceptNull);
+    }
+
+    /**
+     * @param array $array
+     * @param array $keys
+     * @param bool $acceptNull
+     * @return bool
+     */
+    public function expectKeysToBeInteger(array $array, array $keys, bool $acceptNull = false): bool
+    {
+        foreach ($keys as $key) {
+            if ($this->expectKeyToBeInteger($array, $key, $acceptNull) === false) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -120,6 +152,22 @@ class ArrayValidation
 
     /**
      * @param array $array
+     * @param array $keys
+     * @param bool $acceptNull
+     * @return bool
+     */
+    public function expectKeysToBeString(array $array, array $keys, bool $acceptNull = false): bool
+    {
+        foreach ($keys as $key) {
+            if ($this->expectKeyToBeString($array, $key, $acceptNull) === false) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * @param array $array
      * @param string $key
      * @param bool $acceptNull
      * @return bool
@@ -131,6 +179,22 @@ class ArrayValidation
 
     /**
      * @param array $array
+     * @param array $keys
+     * @param bool $acceptNull
+     * @return bool
+     */
+    public function expectKeysToBeFloat(array $array, array $keys, bool $acceptNull = false): bool
+    {
+        foreach ($keys as $key) {
+            if ($this->expectKeyToBeFloat($array, $key, $acceptNull) === false) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * @param array $array
      * @param string $key
      * @param bool $acceptNull
      * @return bool
@@ -138,6 +202,22 @@ class ArrayValidation
     public function expectKeyToBeBoolean(array $array, string $key, bool $acceptNull = false): bool
     {
         return $this->internalTypeValidation('is_bool', $array, $key, $acceptNull);
+    }
+
+    /**
+     * @param array $array
+     * @param array $keys
+     * @param bool $acceptNull
+     * @return bool
+     */
+    public function expectKeysToBeBoolean(array $array, array $keys, bool $acceptNull = false): bool
+    {
+        foreach ($keys as $key) {
+            if ($this->expectKeyToBeBoolean($array, $key, $acceptNull) === false) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
