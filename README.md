@@ -8,7 +8,7 @@
 
      composer require peak/array-validation
 
-## What it this?
+## What is this?
 
 This component help you to validate array structure by:
 
