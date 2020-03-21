@@ -27,7 +27,7 @@ class Schema implements SchemaInterface, JsonSerializable
      * Schema constructor.
      * @param SchemaCompilerInterface $compiler
      * @param array $schema
-     * @param string|null $schemaName
+     * @param string $schemaName
      */
     public function __construct(
         SchemaCompilerInterface $compiler,
@@ -59,6 +59,7 @@ class Schema implements SchemaInterface, JsonSerializable
 
     /**
      * @inheritDoc
+     * @return array
      */
     public function jsonSerialize()
     {
