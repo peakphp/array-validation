@@ -14,7 +14,7 @@ This component help you to validate array structure by:
 
 - validating the type of any key values
 - ensuring a data structure with expected keys requirements
-- preventing structure pollution buy allowing only a set of keys
+- preventing structure pollution by allowing only a set of keys
 
 This is specially useful when dealing with json data request, before using the data, you must validate his content so
 you afterward check the value of those keys with your business logic without worrying about the type or presence of any key value.
