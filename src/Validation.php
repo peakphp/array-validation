@@ -298,11 +298,11 @@ class Validation extends AbstractValidation implements ValidationInterface
     }
 
     /**
-     * @param $type
+     * @param string $type
      * @param array $context
      * @return string
      */
-    protected function getErrorMessage($type, array $context): string
+    protected function getErrorMessage(string $type, array $context): string
     {
         $context = array_merge(['dataName' => $this->getExceptionDataName()], $context);
         return parent::getErrorMessage($type, $context);
