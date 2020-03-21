@@ -7,12 +7,12 @@ namespace Peak\ArrayValidation;
 abstract class AbstractValidation
 {
     /**
-     * @var array
+     * @var array<string>
      */
     protected $errors = [];
 
     /**
-     * @var array
+     * @var array<string>
      */
     protected $errorMessages = [
         'expectedN' => '{dataName}invalid data, expected {nExpected} element(s), received {nReceived} element(s)',
@@ -21,11 +21,11 @@ abstract class AbstractValidation
     ];
 
     /**
-     * @param $type
+     * @param string $type
      * @param array $context
      * @return string
      */
-    protected function getErrorMessage($type, array $context): string
+    protected function getErrorMessage(string $type, array $context): string
     {
         $message = $this->errorMessages[$type];
         $replace = [];
@@ -33,9 +33,6 @@ abstract class AbstractValidation
         foreach ($context as $key => $val) {
             // check that the value can be casted to string
             if (!is_array($val) && (!is_object($val) || method_exists($val, '__toString'))) {
-                if (isset($fn)) {
-                    $val = $fn($val);
-                }
                 $replace['{' . $key . '}'] = $val;
             }
         }
