@@ -23,7 +23,10 @@ class ValidationFromSchema extends Validation
 
         $validationDefinition = $schema->compile();
         foreach ($validationDefinition->getValidations() as $name => $args) {
-            call_user_func_array([$this, $name], $args);
+            $callable = [$this, $name];
+            if (is_callable($callable)) {
+                call_user_func_array($callable, $args);
+            }
         }
     }
 }

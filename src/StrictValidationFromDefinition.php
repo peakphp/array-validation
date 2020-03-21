@@ -29,7 +29,10 @@ class StrictValidationFromDefinition extends StrictValidation
 
         $validations = $arrayValidationDefinition->getValidations();
         foreach ($validations as $name => $args) {
-            call_user_func_array([$this, $name], $args);
+            $callable = [$this, $name];
+            if (is_callable($callable)) {
+                call_user_func_array($callable, $args);
+            }
         }
     }
 }
