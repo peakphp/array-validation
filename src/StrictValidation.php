@@ -17,10 +17,7 @@ class StrictValidation extends Validation
     public function expectExactlyKeys(array $keys)
     {
         parent::expectExactlyKeys($keys);
-        if ($this->hasErrors()) {
-            throw new InvalidStructureException($this->getLastError());
-        }
-        return $this;
+        return $this->checkStructureErrors();
     }
 
     /**
@@ -31,10 +28,7 @@ class StrictValidation extends Validation
     public function expectAtLeastKeys(array $keys)
     {
         parent::expectAtLeastKeys($keys);
-        if ($this->hasErrors()) {
-            throw new InvalidStructureException($this->getLastError());
-        }
-        return $this;
+        return $this->checkStructureErrors();
     }
 
     /**
@@ -45,10 +39,7 @@ class StrictValidation extends Validation
     public function expectOnlyKeys(array $keys)
     {
         parent::expectOnlyKeys($keys);
-        if ($this->hasErrors()) {
-            throw new InvalidStructureException($this->getLastError());
-        }
-        return $this;
+        return $this->checkStructureErrors();
     }
 
     /**
@@ -59,10 +50,7 @@ class StrictValidation extends Validation
     public function expectOnlyOneFromKeys(array $keys)
     {
         parent::expectOnlyOneFromKeys($keys);
-        if ($this->hasErrors()) {
-            throw new InvalidStructureException($this->getLastError());
-        }
-        return $this;
+        return $this->checkStructureErrors();
     }
 
     /**
@@ -73,10 +61,7 @@ class StrictValidation extends Validation
     public function expectNKeys(int $n)
     {
         parent::expectNKeys($n);
-        if ($this->hasErrors()) {
-            throw new InvalidStructureException($this->getLastError());
-        }
-        return $this;
+        return $this->checkStructureErrors();
     }
 
     /**
@@ -88,10 +73,7 @@ class StrictValidation extends Validation
     public function expectKeyToBeArray(string $key, bool $acceptNull = false)
     {
         parent::expectKeyToBeArray($key, $acceptNull);
-        if ($this->hasErrors()) {
-            throw new InvalidTypeException($this->getLastError());
-        }
-        return $this;
+        return $this->checkTypeErrors();
     }
 
     /**
@@ -103,10 +85,7 @@ class StrictValidation extends Validation
     public function expectKeyToBeInteger(string $key, bool $acceptNull = false)
     {
         parent::expectKeyToBeInteger($key, $acceptNull);
-        if ($this->hasErrors()) {
-            throw new InvalidTypeException($this->getLastError());
-        }
-        return $this;
+        return $this->checkTypeErrors();
     }
 
     /**
@@ -118,10 +97,7 @@ class StrictValidation extends Validation
     public function expectKeyToBeFloat(string $key, bool $acceptNull = false)
     {
         parent::expectKeyToBeFloat($key, $acceptNull);
-        if ($this->hasErrors()) {
-            throw new InvalidTypeException($this->getLastError());
-        }
-        return $this;
+        return $this->checkTypeErrors();
     }
 
     /**
@@ -133,10 +109,7 @@ class StrictValidation extends Validation
     public function expectKeyToBeString(string $key, bool $acceptNull = false)
     {
         parent::expectKeyToBeString($key, $acceptNull);
-        if ($this->hasErrors()) {
-            throw new InvalidTypeException($this->getLastError());
-        }
-        return $this;
+        return $this->checkTypeErrors();
     }
 
     /**
@@ -148,8 +121,99 @@ class StrictValidation extends Validation
     public function expectKeyToBeBoolean(string $key, bool $acceptNull = false)
     {
         parent::expectKeyToBeBoolean($key, $acceptNull);
+        return $this->checkTypeErrors();
+    }
+
+    /**
+     * @param array $keys
+     * @param bool $acceptNull
+     * @return $this|Validation
+     * @throws InvalidTypeException
+     */
+    public function expectKeysToBeString(array $keys, bool $acceptNull = false)
+    {
+        foreach ($keys as $key) {
+            $this->expectKeyToBeString($key, $acceptNull);
+        }
+        return $this;
+    }
+
+    /**
+     * @param array $keys
+     * @param bool $acceptNull
+     * @return $this|Validation
+     * @throws InvalidTypeException
+     */
+    public function expectKeysToBeInteger(array $keys, bool $acceptNull = false)
+    {
+        foreach ($keys as $key) {
+            $this->expectKeyToBeInteger($key, $acceptNull);
+        }
+        return $this;
+    }
+
+    /**
+     * @param array $keys
+     * @param bool $acceptNull
+     * @return $this|Validation
+     * @throws InvalidTypeException
+     */
+    public function expectKeysToBeFloat(array $keys, bool $acceptNull = false)
+    {
+        foreach ($keys as $key) {
+            $this->expectKeyToBeFloat($key, $acceptNull);
+        }
+        return $this;
+    }
+
+    /**
+     * @param array $keys
+     * @param bool $acceptNull
+     * @return $this|Validation
+     * @throws InvalidTypeException
+     */
+    public function expectKeysToBeBoolean(array $keys, bool $acceptNull = false)
+    {
+        foreach ($keys as $key) {
+            $this->expectKeyToBeBoolean($key, $acceptNull);
+        }
+        return $this;
+    }
+
+    /**
+     * @param array $keys
+     * @param bool $acceptNull
+     * @return $this|Validation
+     * @throws InvalidTypeException
+     */
+    public function expectKeysToBeArray(array $keys, bool $acceptNull = false)
+    {
+        foreach ($keys as $key) {
+            $this->expectKeyToBeArray($key, $acceptNull);
+        }
+        return $this;
+    }
+
+    /**
+     * @return $this
+     * @throws InvalidStructureException
+     */
+    protected function checkStructureErrors()
+    {
         if ($this->hasErrors()) {
-            throw new InvalidTypeException($this->getLastError());
+            throw new InvalidStructureException($this->getLastError() ?? '');
+        }
+        return $this;
+    }
+
+    /**
+     * @return $this
+     * @throws InvalidTypeException
+     */
+    protected function checkTypeErrors()
+    {
+        if ($this->hasErrors()) {
+            throw new InvalidTypeException($this->getLastError() ?? '');
         }
         return $this;
     }
