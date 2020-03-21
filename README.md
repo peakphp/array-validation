@@ -17,12 +17,12 @@ This component help you to validate array structure by:
 - preventing structure pollution by allowing only a set of keys
 
 This is specially useful when dealing with json data request, before using the data, you must validate his content so
-you afterward check the value of those keys with your business logic without worrying about the type or presence of any key value.
+you can afterward check the value of those keys with your business logic without worrying about the type or presence of any key value.
 
 # How to use
 ##### 7 Usages
 
-## 1- General validation (stateless)
+## 1- General validation "à la carte" (stateless)
 
 ```php
 $validator = new Validator();
@@ -60,8 +60,6 @@ $vDef
     ->expectOnlyKeys(['title', 'content'])
     ->expectKeysToBeString(['title', 'content'], true);
 
-$validationsArray = $arrayDefinition->getValidations();
-
 $validation = new ValidationFromDefinition($vDef, $data);
 
 if ($validation->hasErrors()) {
@@ -76,7 +74,7 @@ Schema is just another way to write validation definitions. This format is ideal
 
 ```php
 
-$schemaArray = [
+$mySchema = [
     'title' => [
         'type' => 'string',
         'required' => true
@@ -87,18 +85,13 @@ $schemaArray = [
     ],
 ];
 
-$schema = new Schema(
-    new SchemaCompiler(),
-    $schemaArray,
-    'mySchemaName'
-);
+$schema = new Schema(new SchemaCompiler(), $mySchema, 'mySchemaName');
 
 $validation = new ValidationFromSchema($schema, $data);
 
 if ($validation->hasErrors()) {
     // $validation->getErrors();
 }
-
 ```
 
 ## 5- Strict validation with fluent interface.
@@ -124,14 +117,14 @@ $validation
 ## 6- Strict validation using Schema
 
 ```php
-// all validation definitions are executed and an exception is thrown if any of tests failed
+// all validation definitions are executed at object creation and an exception is thrown if any of tests failed
 new StrictValidationFromDefiniton($validationDefinition, $arrayToValidate);
 ```
 
 ## 7- Strict validation using Schema
 
 ```php
-// all validation definitions are executed and an exception is thrown if any of tests failed
+// all validation definitions are executed at object creation and an exception is thrown if any of tests failed
 new StrictValidationFromSchema($schema, $arrayToValidate);
 ```
 
