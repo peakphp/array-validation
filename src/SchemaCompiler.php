@@ -17,7 +17,7 @@ class SchemaCompiler implements SchemaCompilerInterface
         $definition = new ValidationDefinition();
 
         foreach ($schema as $fieldName => $fieldDefinition) {
-            if (is_array($fieldDefinition)) {
+            if (is_string($fieldName) && is_array($fieldDefinition)) {
                 $this->handleFieldDefinition($fieldName, $fieldDefinition, $definition);
             }
         }
@@ -29,13 +29,13 @@ class SchemaCompiler implements SchemaCompilerInterface
     }
 
     /**
-     * @param $fieldName
+     * @param string $fieldName
      * @param array $fieldDefinition
      * @param ValidationDefinition $definition
      * @throws Exception\InvalidStructureException
      * @throws Exception\InvalidTypeException
      */
-    private function handleFieldDefinition($fieldName, array $fieldDefinition, ValidationDefinition $definition)
+    private function handleFieldDefinition(string $fieldName, array $fieldDefinition, ValidationDefinition $definition): void
     {
         (new StrictValidation($fieldDefinition, 'compile.schema.field.' . $fieldName))
             ->expectOnlyKeys([
@@ -56,7 +56,7 @@ class SchemaCompiler implements SchemaCompilerInterface
      * @param array $schema
      * @param ValidationDefinition $definition
      */
-    private function handleRequiredFields(array $schema, ValidationDefinition $definition)
+    private function handleRequiredFields(array $schema, ValidationDefinition $definition): void
     {
         $definition->expectOnlyKeys(array_keys($schema));
         $atLeastKeys = [];
