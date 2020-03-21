@@ -6,7 +6,7 @@ Release date: ?
  - added Schema, SchemaInterface, SchemaCompiler and SchemaCompilerInterface
  - added ArrayValidationExceptionInterface to help catching any validation exceptions
  - added StrictValidationFromSchema
- - rewrited StrictValidation and added AbstractValidation
+ - rewritten StrictValidation and added AbstractValidation
  - added Validation, ValidationFromDefinition and ValidationFromSchema
    which act almost like as Strict* classes but without exceptions
 

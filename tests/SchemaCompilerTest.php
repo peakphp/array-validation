@@ -11,7 +11,6 @@ use Peak\ArrayValidation\SchemaCompiler;
 use Peak\ArrayValidation\ValidationInterface;
 use \PHPUnit\Framework\TestCase;
 
-
 class SchemaCompilerTest extends TestCase
 {
 
