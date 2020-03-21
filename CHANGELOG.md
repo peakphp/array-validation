@@ -1,6 +1,6 @@
 VERSION 3.0.0
 -------------
-Release date: ?
+Release date: 2020-03-21
 
  - introducing schema which add a new way to define your validations structure
  - added Schema, SchemaInterface, SchemaCompiler and SchemaCompilerInterface
