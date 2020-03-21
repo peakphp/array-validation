@@ -5,7 +5,7 @@ declare(strict_types=1);
 use \PHPUnit\Framework\TestCase;
 use \Peak\ArrayValidation\Validator;
 
-class ArrayValidationTest extends TestCase
+class ValidatorTest extends TestCase
 {
     private $data1 = [
         'title' => 'foo',

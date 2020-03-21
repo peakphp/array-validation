@@ -7,7 +7,7 @@ use Peak\ArrayValidation\Exception\InvalidTypeException;
 use Peak\ArrayValidation\StrictValidation;
 use PHPUnit\Framework\TestCase;
 
-class StrictArrayValidatorTest extends TestCase
+class StrictValidationTest extends TestCase
 {
     private $data1 = [
         'title' => 'foo',

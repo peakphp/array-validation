@@ -1,3 +1,15 @@
+VERSION 3.0.0
+-------------
+Release date: ?
+
+ - introducing schema which add a new way to define your validations structure
+ - added Schema, SchemaInterface, SchemaCompiler and SchemaCompilerInterface
+ - added ArrayValidationExceptionInterface to help catching any validation exceptions
+ - added StrictValidationFromSchema
+ - rewrited StrictValidation and added AbstractValidation
+ - added Validation, ValidationFromDefinition and ValidationFromSchema
+   which act almost like as Strict* classes but without exceptions
+
 VERSION 2.0.0
 -------------
 Release date: 2020-02-24

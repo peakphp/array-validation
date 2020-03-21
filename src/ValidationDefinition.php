@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Peak\ArrayValidation;
 
-class ValidationDefinition implements ValidationInterface
+use \JsonSerializable;
+
+class ValidationDefinition implements ValidationInterface, JsonSerializable
 {
     /**
      * @var array
@@ -129,5 +131,13 @@ class ValidationDefinition implements ValidationInterface
     {
         $this->validations[__FUNCTION__] = func_get_args();
         return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function jsonSerialize()
+    {
+        return $this->getValidations();
     }
 }
