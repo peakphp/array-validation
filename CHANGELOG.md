@@ -9,6 +9,8 @@ Release date: 2020-03-21
  - rewritten StrictValidation and added AbstractValidation
  - added Validation, ValidationFromDefinition and ValidationFromSchema
    which act almost like as Strict* classes but without exceptions
+ - fixed bug with ValidationDefinition where same method validation were not stacked but overwritten
+ - added ValidationDefinitionExecutor
 
 VERSION 2.0.0
 -------------
