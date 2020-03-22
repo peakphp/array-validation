@@ -8,14 +8,14 @@ class StrictValidationFromSchema extends StrictValidation
 {
     /**
      * StrictValidationFromSchema constructor.
-     * @param Schema $schema
+     * @param SchemaInterface $schema
      * @param array $data
      * @param Validator|null $arrayValidation
      * @throws Exception\InvalidStructureException
      * @throws Exception\InvalidTypeException
      */
     public function __construct(
-        Schema $schema,
+        SchemaInterface $schema,
         array $data,
         Validator $arrayValidation = null
     ) {
