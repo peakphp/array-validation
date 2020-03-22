@@ -35,7 +35,7 @@ class ValidationDefinitionTest extends TestCase
         $arrayDefinition = new ValidationDefinition();
 
         $arrayDefinition
-            ->expectOnlyKeys(['title', 'content', 'id', 'number', 'amount', 'fields', 'isPrivate'])
+            ->expectOnlyKeys(['title', 'content', 'description', 'id', 'number', 'amount', 'fields', 'isPrivate'])
             ->expectKeysToBeInteger(['id'])
             ->expectKeyToBeInteger('number')
             ->expectKeyToBeFloat('amount')
@@ -44,10 +44,25 @@ class ValidationDefinitionTest extends TestCase
             ->expectKeyToBeArray('fields')
             ->expectKeyToBeBoolean('isPrivate')
             ->expectKeysToBeBoolean(['isPrivate'])
-            ->expectKeysToBeString(['title', 'content'], true);
+            ->expectKeysToBeString(['title', 'content'], true)
+            ->expectKeyToBeString('title', true)
+            ->expectKeyToBeString('content', true)
+            ->expectKeyToBeString('description', false);
 
         $validations = $arrayDefinition->getValidations();
+//        print_r($validations);
         $this->assertTrue(is_array($validations));
+        $this->assertTrue(isset($validations['expectKeyToBeString'][0][0]));
+        $this->assertTrue($validations['expectKeyToBeString'][0][0] === 'title');
+        $this->assertTrue($validations['expectKeyToBeString'][0][1]);
+
+        $this->assertTrue(isset($validations['expectKeyToBeString'][1][0]));
+        $this->assertTrue($validations['expectKeyToBeString'][1][0] === 'content');
+        $this->assertTrue($validations['expectKeyToBeString'][1][1]);
+
+        $this->assertTrue(isset($validations['expectKeyToBeString'][2][0]));
+        $this->assertTrue($validations['expectKeyToBeString'][2][0] === 'description');
+        $this->assertFalse($validations['expectKeyToBeString'][2][1]);
     }
 
     public function testStrictArrayValidatorFromDefinition()
