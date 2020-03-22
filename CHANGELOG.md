@@ -1,3 +1,9 @@
+VERSION 3.1.0
+-------------
+Release date: ?
+
+ - use SchemaInterface instead of Schema in StrictValidationFromSchema and ValidationFromSchema
+
 VERSION 3.0.0
 -------------
 Release date: 2020-03-21
