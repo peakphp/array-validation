@@ -6,33 +6,31 @@ namespace Peak\ArrayValidation;
 
 class StrictValidationFromDefinition extends StrictValidation
 {
+
     /**
      * @var ValidationDefinition
      */
-    private $arrayValidationDefinition;
+    private $validationDefinition;
 
     /**
      * StrictArrayValidatorFromDefinition constructor.
-     * @param ValidationDefinition $arrayValidationDefinition
+     * @param ValidationDefinition $validationDefinition
      * @param array $data
      * @param string|null $dataName
      * @param Validator|null $arrayValidation
      */
     public function __construct(
-        ValidationDefinition $arrayValidationDefinition,
+        ValidationDefinition $validationDefinition,
         array $data,
         string $dataName = null,
         Validator $arrayValidation = null
     ) {
-        $this->arrayValidationDefinition = $arrayValidationDefinition;
+        $this->validationDefinition = $validationDefinition;
         parent::__construct($data, $dataName, $arrayValidation);
 
-        $validations = $arrayValidationDefinition->getValidations();
-        foreach ($validations as $name => $args) {
-            $callable = [$this, $name];
-            if (is_callable($callable)) {
-                call_user_func_array($callable, $args);
-            }
-        }
+        (new ValidationDefinitionExecutor())->execute(
+            $validationDefinition,
+            $this
+        );
     }
 }

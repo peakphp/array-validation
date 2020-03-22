@@ -22,11 +22,9 @@ class ValidationFromSchema extends Validation
         parent::__construct($data, $schema->getName(), $arrayValidation);
 
         $validationDefinition = $schema->compile();
-        foreach ($validationDefinition->getValidations() as $name => $args) {
-            $callable = [$this, $name];
-            if (is_callable($callable)) {
-                call_user_func_array($callable, $args);
-            }
-        }
+        (new ValidationDefinitionExecutor())->execute(
+            $validationDefinition,
+            $this
+        );
     }
 }
