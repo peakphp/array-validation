@@ -12,21 +12,21 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
      * @var array
      */
     private $validations = [
-        'expectExactlyKeys' => null,
-        'expectOnlyOneFromKeys' => null,
-        'expectAtLeastKeys' => null,
-        'expectOnlyKeys' => null,
-        'expectNKeys' => null,
-        'expectKeyToBeArray' => null,
-        'expectKeysToBeArray' => null,
-        'expectKeyToBeInteger' => null,
-        'expectKeysToBeInteger' => null,
-        'expectKeyToBeFloat' => null,
-        'expectKeysToBeFloat' => null,
-        'expectKeyToBeString' => null,
-        'expectKeysToBeString' => null,
-        'expectKeyToBeBoolean' => null,
-        'expectKeysToBeBoolean' => null,
+        'expectExactlyKeys' => [],
+        'expectOnlyOneFromKeys' => [],
+        'expectAtLeastKeys' => [],
+        'expectOnlyKeys' => [],
+        'expectNKeys' => [],
+        'expectKeyToBeArray' => [],
+        'expectKeysToBeArray' => [],
+        'expectKeyToBeInteger' => [],
+        'expectKeysToBeInteger' => [],
+        'expectKeyToBeFloat' => [],
+        'expectKeysToBeFloat' => [],
+        'expectKeyToBeString' => [],
+        'expectKeysToBeString' => [],
+        'expectKeyToBeBoolean' => [],
+        'expectKeysToBeBoolean' => [],
     ];
 
     /**
@@ -36,7 +36,7 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
     {
         $validations = [];
         foreach ($this->validations as $name => $args) {
-            if (null !== $args) {
+            if (!empty($args)) {
                 $validations[$name] = $args;
             }
         }
@@ -49,7 +49,7 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
      */
     public function expectExactlyKeys(array $keys)
     {
-        $this->validations[__FUNCTION__] = func_get_args();
+        $this->validations[__FUNCTION__][] = func_get_args();
         return $this;
     }
 
@@ -59,7 +59,7 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
      */
     public function expectOnlyOneFromKeys(array $keys)
     {
-        $this->validations[__FUNCTION__] = func_get_args();
+        $this->validations[__FUNCTION__][] = func_get_args();
         return $this;
     }
 
@@ -69,7 +69,7 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
      */
     public function expectAtLeastKeys(array $keys)
     {
-        $this->validations[__FUNCTION__] = func_get_args();
+        $this->validations[__FUNCTION__][] = func_get_args();
         return $this;
     }
 
@@ -79,7 +79,7 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
      */
     public function expectOnlyKeys(array $keys)
     {
-        $this->validations[__FUNCTION__] = func_get_args();
+        $this->validations[__FUNCTION__][] = func_get_args();
         return $this;
     }
 
@@ -89,7 +89,7 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
      */
     public function expectNKeys(int $n)
     {
-        $this->validations[__FUNCTION__] = func_get_args();
+        $this->validations[__FUNCTION__][] = func_get_args();
         return $this;
     }
 
@@ -100,7 +100,7 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
      */
     public function expectKeyToBeArray(string $key, bool $acceptNull = false)
     {
-        $this->validations[__FUNCTION__] = func_get_args();
+        $this->validations[__FUNCTION__][] = func_get_args();
         return $this;
     }
 
@@ -111,7 +111,7 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
      */
     public function expectKeysToBeArray(array $keys, bool $acceptNull = false)
     {
-        $this->validations[__FUNCTION__] = func_get_args();
+        $this->validations[__FUNCTION__][] = func_get_args();
         return $this;
     }
 
@@ -122,7 +122,7 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
      */
     public function expectKeyToBeInteger(string $key, bool $acceptNull = false)
     {
-        $this->validations[__FUNCTION__] = func_get_args();
+        $this->validations[__FUNCTION__][] = func_get_args();
         return $this;
     }
 
@@ -133,7 +133,7 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
      */
     public function expectKeysToBeInteger(array $keys, bool $acceptNull = false)
     {
-        $this->validations[__FUNCTION__] = func_get_args();
+        $this->validations[__FUNCTION__][] = func_get_args();
         return $this;
     }
 
@@ -144,7 +144,7 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
      */
     public function expectKeyToBeFloat(string $key, bool $acceptNull = false)
     {
-        $this->validations[__FUNCTION__] = func_get_args();
+        $this->validations[__FUNCTION__][] = func_get_args();
         return $this;
     }
 
@@ -155,7 +155,7 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
      */
     public function expectKeysToBeFloat(array $keys, bool $acceptNull = false)
     {
-        $this->validations[__FUNCTION__] = func_get_args();
+        $this->validations[__FUNCTION__][] = func_get_args();
         return $this;
     }
 
@@ -166,7 +166,7 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
      */
     public function expectKeyToBeString(string $key, bool $acceptNull = false)
     {
-        $this->validations[__FUNCTION__] = func_get_args();
+        $this->validations[__FUNCTION__][] = func_get_args();
         return $this;
     }
 
@@ -177,7 +177,7 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
      */
     public function expectKeysToBeString(array $keys, bool $acceptNull = false)
     {
-        $this->validations[__FUNCTION__] = func_get_args();
+        $this->validations[__FUNCTION__][] = func_get_args();
         return $this;
     }
 
@@ -188,7 +188,7 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
      */
     public function expectKeyToBeBoolean(string $key, bool $acceptNull = false)
     {
-        $this->validations[__FUNCTION__] = func_get_args();
+        $this->validations[__FUNCTION__][] = func_get_args();
         return $this;
     }
 
@@ -199,7 +199,7 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
      */
     public function expectKeysToBeBoolean(array $keys, bool $acceptNull = false)
     {
-        $this->validations[__FUNCTION__] = func_get_args();
+        $this->validations[__FUNCTION__][] = func_get_args();
         return $this;
     }
 
