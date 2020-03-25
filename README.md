@@ -114,7 +114,7 @@ $validation
 
 ```
 
-## 6- Strict validation using Schema
+## 6- Strict validation using ValidationDefinition
 
 ```php
 // all validation definitions are executed at object creation and an exception is thrown if any of tests failed
