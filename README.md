@@ -118,7 +118,7 @@ $validation
 
 ```php
 // all validation definitions are executed at object creation and an exception is thrown if any of tests failed
-new StrictValidationFromDefiniton($validationDefinition, $arrayToValidate);
+new StrictValidationFromDefinition($validationDefinition, $arrayToValidate);
 ```
 
 ## 7- Strict validation using Schema
