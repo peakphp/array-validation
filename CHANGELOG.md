@@ -1,6 +1,6 @@
 VERSION 3.1.0
 -------------
-Release date: ?
+Release date: 2020-03-26
 
  - use SchemaInterface instead of Schema in StrictValidationFromSchema and ValidationFromSchema
  - added validator expectKeyToBeObject() and expectKeysToBeObject()
