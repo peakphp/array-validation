@@ -51,7 +51,27 @@ if ($validation->hasErrors()) {
 }
 ```
 
-## 3- Create a ValidationDefinition for later usage
+## 3- Strict validation with fluent interface (stateful)
+
+```php
+
+$validation = new StrictValidation($arrayToValidate);
+
+// will throw an exception if any of tests below fail
+$validation
+    ->expectOnlyKeys(['id', 'title', 'description', 'isPrivate', 'tags'])
+    ->expectAtLeastKeys(['id', 'title', 'description'])
+    ->expectKeyToBeInteger('id')
+    ->expectKeysToBeString(['title', 'description'])
+    ->expectKeyToBeBoolean('isPrivate')
+    ->expectKeyToBeArray('tags');
+
+// if we reach this point, it means the array structure is
+// valid according to the validation rules above.
+
+```
+
+## 4- Create a ValidationDefinition for later usage
 
 ```php
 $vDef = new ValidationDefinition();
@@ -68,7 +88,7 @@ if ($validation->hasErrors()) {
 
 ```
 
-## 4- Create a validation Schema for later usage 
+## 5- Create a validation Schema for later usage
 
 Schema is just another way to write validation definitions. This format is ideal when you want to store schemas in file (ex: json, php array file, yml, ...)
 
@@ -94,25 +114,7 @@ if ($validation->hasErrors()) {
 }
 ```
 
-## 5- Strict validation with fluent interface.
 
-```php
-
-$validation = new StrictValidation($arrayToValidate);
-
-// will throw an exception if any of tests below fail
-$validation
-    ->expectOnlyKeys(['id', 'title', 'description', 'isPrivate', 'tags'])
-    ->expectAtLeastKeys(['id', 'title', 'description'])
-    ->expectKeyToBeInteger('id')
-    ->expectKeysToBeString(['title', 'description'])
-    ->expectKeyToBeBoolean('isPrivate')
-    ->expectKeyToBeArray('tags');
-
-// if we reach this point, it means the array structure is
-// valid according to the validation rules above.
-
-```
 
 ## 6- Strict validation using ValidationDefinition
 
