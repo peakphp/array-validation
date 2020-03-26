@@ -15,7 +15,7 @@ abstract class AbstractValidation
      * @var array<string>
      */
     protected $errorMessages = [
-        'expectedN' => '{dataName}invalid data, expected {nExpected} element(s), received {nReceived} element(s)',
+        'expectedN' => '{dataName}invalid data, expected {nExpected} element{nExpectedPlural}, received {nReceived} element{nReceivedPlural}',
         'expected' => '{dataName}invalid data, expected {expectedType} [{keysExpected}], received [{keysReceived}]',
         'type' => '{dataName}invalid type for key [{key}], type {expectedType} is expected',
     ];
