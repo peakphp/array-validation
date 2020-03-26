@@ -42,6 +42,7 @@ $data = [ // data
 $validation = new Validation($data);
 
 $validation
+    ->expectExactlyKeys(['tags', 'name'])
     ->expectKeyToBeArray('tags');
     ->expectKeyToBeString('name');
 
@@ -55,10 +56,9 @@ if ($validation->hasErrors()) {
 ```php
 $vDef = new ValidationDefinition();
 $vDef
+    ->expectOnlyKeys(['title', 'content', 'description'])
     ->expectAtLeastKeys(['title', 'content'])
-    ->expectExactlyKeys(['title', 'content'])
-    ->expectOnlyKeys(['title', 'content'])
-    ->expectKeysToBeString(['title', 'content'], true);
+    ->expectKeysToBeString(['title', 'content', 'description']);
 
 $validation = new ValidationFromDefinition($vDef, $data);
 
