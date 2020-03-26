@@ -35,7 +35,8 @@ class ValidationDefinitionTest extends TestCase
         $arrayDefinition = new ValidationDefinition();
 
         $arrayDefinition
-            ->expectOnlyKeys(['title', 'content', 'description', 'id', 'number', 'amount', 'fields', 'isPrivate'])
+            ->expectOnlyKeys(['title', 'content', 'description', 'id', 'number', 'amount', 'fields', 'isPrivate', 'person'])
+            ->expectOnlyOneFromKeys(['title'])
             ->expectKeysToBeInteger(['id'])
             ->expectKeyToBeInteger('number')
             ->expectKeyToBeFloat('amount')
@@ -47,10 +48,12 @@ class ValidationDefinitionTest extends TestCase
             ->expectKeysToBeString(['title', 'content'], true)
             ->expectKeyToBeString('title', true)
             ->expectKeyToBeString('content', true)
-            ->expectKeyToBeString('description', false);
+            ->expectKeyToBeString('description', false)
+            ->expectKeyToBeObject('person', true)
+            ->expectKeysToBeObject(['person']);
 
         $validations = $arrayDefinition->getValidations();
-//        print_r($validations);
+
         $this->assertTrue(is_array($validations));
         $this->assertTrue(isset($validations['expectKeyToBeString'][0][0]));
         $this->assertTrue($validations['expectKeyToBeString'][0][0] === 'title');
@@ -63,6 +66,10 @@ class ValidationDefinitionTest extends TestCase
         $this->assertTrue(isset($validations['expectKeyToBeString'][2][0]));
         $this->assertTrue($validations['expectKeyToBeString'][2][0] === 'description');
         $this->assertFalse($validations['expectKeyToBeString'][2][1]);
+
+        $this->assertTrue(isset($validations['expectKeyToBeObject'][0][0]));
+        $this->assertTrue($validations['expectKeyToBeObject'][0][0] === 'person');
+        $this->assertTrue($validations['expectKeyToBeObject'][0][1]);
     }
 
     public function testStrictArrayValidatorFromDefinition()
@@ -129,5 +136,12 @@ class ValidationDefinitionTest extends TestCase
             'content' => 1,
         ]);
 
+    }
+
+    public function testJsonSerialize()
+    {
+        $definition = new ValidationDefinition();
+        $definition->expectOnlyKeys(['title', 'content']);
+        $this->assertTrue(json_encode($definition) === '{"expectOnlyKeys":[[["title","content"]]]}');
     }
 }

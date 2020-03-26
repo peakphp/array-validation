@@ -70,4 +70,11 @@ class SchemaTest extends TestCase
         $this->assertTrue($schema->getName() === 'myName');
         new StrictValidationFromDefinition($validationDefinition, $data);
     }
+
+    public function testJsonSerialize()
+    {
+        $compiler = new SchemaCompiler();
+        $schema = new Schema($compiler, ['schema'], 'myName');
+        $this->assertTrue(json_encode($schema) === '["schema"]');
+    }
 }

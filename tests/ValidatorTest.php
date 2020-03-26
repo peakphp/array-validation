@@ -173,4 +173,20 @@ class ValidatorTest extends TestCase
         $this->assertTrue($validation->expectKeysToBeString($data, ['item1', 'item2', 'item4'], true));
         $this->assertFalse($validation->expectKeysToBeString($data, ['item1', 'item2', 'item3', 'item4'], true));
     }
+
+    public function testIsObject()
+    {
+        $data = [
+            'item1' => new stdClass(),
+            'item2' => new DateTime(),
+            'item3' => null,
+        ];
+        $validation = new Validator();
+        $this->assertTrue($validation->expectKeyToBeObject($data, 'item1', false));
+        $this->assertFalse($validation->expectKeyToBeObject($data, 'item3', false));
+        $this->assertTrue($validation->expectKeyToBeObject($data, 'item3', true));
+        $this->assertTrue($validation->expectKeysToBeObject($data, ['item1', 'item2'], false));
+        $this->assertFalse($validation->expectKeysToBeObject($data, ['item1', 'item2', 'item3'], false));
+        $this->assertTrue($validation->expectKeysToBeObject($data, ['item1', 'item2', 'item3'], true));
+    }
 }
