@@ -21,4 +21,6 @@ interface ValidationInterface
     public function expectKeysToBeString(array $keys, bool $acceptNull = false);
     public function expectKeyToBeBoolean(string $key, bool $acceptNull = false);
     public function expectKeysToBeBoolean(array $keys, bool $acceptNull = false);
+    public function expectKeyToBeObject(string $key, bool $acceptNull = false);
+    public function expectKeysToBeObject(array $keys, bool $acceptNull = false);
 }

@@ -27,6 +27,8 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
         'expectKeysToBeString' => [],
         'expectKeyToBeBoolean' => [],
         'expectKeysToBeBoolean' => [],
+        'expectKeyToBeObject' => [],
+        'expectKeysToBeObject' => [],
     ];
 
     /**
@@ -49,8 +51,7 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
      */
     public function expectExactlyKeys(array $keys)
     {
-        $this->validations[__FUNCTION__][] = func_get_args();
-        return $this;
+        return $this->addValidation(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -59,8 +60,7 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
      */
     public function expectOnlyOneFromKeys(array $keys)
     {
-        $this->validations[__FUNCTION__][] = func_get_args();
-        return $this;
+        return $this->addValidation(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -69,8 +69,7 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
      */
     public function expectAtLeastKeys(array $keys)
     {
-        $this->validations[__FUNCTION__][] = func_get_args();
-        return $this;
+        return $this->addValidation(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -79,8 +78,7 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
      */
     public function expectOnlyKeys(array $keys)
     {
-        $this->validations[__FUNCTION__][] = func_get_args();
-        return $this;
+        return $this->addValidation(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -89,8 +87,7 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
      */
     public function expectNKeys(int $n)
     {
-        $this->validations[__FUNCTION__][] = func_get_args();
-        return $this;
+        return $this->addValidation(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -100,8 +97,7 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
      */
     public function expectKeyToBeArray(string $key, bool $acceptNull = false)
     {
-        $this->validations[__FUNCTION__][] = func_get_args();
-        return $this;
+        return $this->addValidation(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -111,8 +107,7 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
      */
     public function expectKeysToBeArray(array $keys, bool $acceptNull = false)
     {
-        $this->validations[__FUNCTION__][] = func_get_args();
-        return $this;
+        return $this->addValidation(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -122,8 +117,7 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
      */
     public function expectKeyToBeInteger(string $key, bool $acceptNull = false)
     {
-        $this->validations[__FUNCTION__][] = func_get_args();
-        return $this;
+        return $this->addValidation(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -133,8 +127,7 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
      */
     public function expectKeysToBeInteger(array $keys, bool $acceptNull = false)
     {
-        $this->validations[__FUNCTION__][] = func_get_args();
-        return $this;
+        return $this->addValidation(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -144,8 +137,7 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
      */
     public function expectKeyToBeFloat(string $key, bool $acceptNull = false)
     {
-        $this->validations[__FUNCTION__][] = func_get_args();
-        return $this;
+        return $this->addValidation(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -155,8 +147,7 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
      */
     public function expectKeysToBeFloat(array $keys, bool $acceptNull = false)
     {
-        $this->validations[__FUNCTION__][] = func_get_args();
-        return $this;
+        return $this->addValidation(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -166,8 +157,7 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
      */
     public function expectKeyToBeString(string $key, bool $acceptNull = false)
     {
-        $this->validations[__FUNCTION__][] = func_get_args();
-        return $this;
+        return $this->addValidation(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -177,8 +167,7 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
      */
     public function expectKeysToBeString(array $keys, bool $acceptNull = false)
     {
-        $this->validations[__FUNCTION__][] = func_get_args();
-        return $this;
+        return $this->addValidation(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -188,8 +177,7 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
      */
     public function expectKeyToBeBoolean(string $key, bool $acceptNull = false)
     {
-        $this->validations[__FUNCTION__][] = func_get_args();
-        return $this;
+        return $this->addValidation(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -199,8 +187,27 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
      */
     public function expectKeysToBeBoolean(array $keys, bool $acceptNull = false)
     {
-        $this->validations[__FUNCTION__][] = func_get_args();
-        return $this;
+        return $this->addValidation(__FUNCTION__, func_get_args());
+    }
+
+    /**
+     * @param string $key
+     * @param bool $acceptNull
+     * @return $this
+     */
+    public function expectKeyToBeObject(string $key, bool $acceptNull = false)
+    {
+        return $this->addValidation(__FUNCTION__, func_get_args());
+    }
+
+    /**
+     * @param array $keys
+     * @param bool $acceptNull
+     * @return $this
+     */
+    public function expectKeysToBeObject(array $keys, bool $acceptNull = false)
+    {
+        return $this->addValidation(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -210,5 +217,16 @@ class ValidationDefinition implements ValidationInterface, JsonSerializable
     public function jsonSerialize()
     {
         return $this->getValidations();
+    }
+
+    /**
+     * @param string $validationName
+     * @param array $validationArgs
+     * @return $this
+     */
+    protected function addValidation(string $validationName, array $validationArgs)
+    {
+        $this->validations[$validationName][] = $validationArgs;
+        return $this;
     }
 }

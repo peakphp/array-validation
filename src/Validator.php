@@ -221,6 +221,33 @@ class Validator implements ValidatorInterface
     }
 
     /**
+     * @param array $array
+     * @param string $key
+     * @param bool $acceptNull
+     * @return bool
+     */
+    public function expectKeyToBeObject(array $array, string $key, bool $acceptNull = false): bool
+    {
+        return $this->internalTypeValidation('is_object', $array, $key, $acceptNull);
+    }
+
+    /**
+     * @param array $array
+     * @param array $keys
+     * @param bool $acceptNull
+     * @return bool
+     */
+    public function expectKeysToBeObject(array $array, array $keys, bool $acceptNull = false): bool
+    {
+        foreach ($keys as $key) {
+            if ($this->expectKeyToBeObject($array, $key, $acceptNull) === false) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * @param string $method
      * @param array $array
      * @param string $key
@@ -235,4 +262,7 @@ class Validator implements ValidatorInterface
             ($acceptNull && ($array[$key] !== null && !$method($array[$key])))
         );
     }
+
+
+
 }

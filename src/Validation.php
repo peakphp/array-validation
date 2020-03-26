@@ -47,12 +47,11 @@ class Validation extends AbstractValidation implements ValidationInterface
             $keysReceived = array_keys($this->data);
             natsort($keys);
             natsort($keysReceived);
-            $message = $this->getErrorMessage('expected', [
+            $this->errors[] = $this->getErrorMessage('expected', [
                 'expectedType' => 'exactly keys',
                 'keysExpected' => implode(', ', $keys),
                 'keysReceived' => implode(', ', $keysReceived)
             ]);
-            $this->errors[] = $message;
         }
         return $this;
     }
@@ -67,12 +66,11 @@ class Validation extends AbstractValidation implements ValidationInterface
             $keysReceived = array_keys($this->data);
             natsort($keys);
             natsort($keysReceived);
-            $message = $this->getErrorMessage('expected', [
+            $this->errors[] = $this->getErrorMessage('expected', [
                 'expectedType' => 'at least keys',
                 'keysExpected' => implode(', ', $keys),
                 'keysReceived' => implode(', ', $keysReceived)
             ]);
-            $this->errors[] = $message;
         }
         return $this;
     }
@@ -87,12 +85,11 @@ class Validation extends AbstractValidation implements ValidationInterface
             $keysReceived = array_keys($this->data);
             natsort($keys);
             natsort($keysReceived);
-            $message = $this->getErrorMessage('expected', [
+            $this->errors[] = $this->getErrorMessage('expected', [
                 'expectedType' => 'only keys',
                 'keysExpected' => implode(', ', $keys),
                 'keysReceived' => implode(', ', $keysReceived)
             ]);
-            $this->errors[] = $message;
         }
         return $this;
     }
@@ -107,12 +104,11 @@ class Validation extends AbstractValidation implements ValidationInterface
             $keysReceived = array_keys($this->data);
             natsort($keys);
             natsort($keysReceived);
-            $message = $this->getErrorMessage('expected', [
+            $this->errors[] = $this->getErrorMessage('expected', [
                 'expectedType' => 'only one of keys',
                 'keysExpected' => implode(', ', $keys),
                 'keysReceived' => implode(', ', $keysReceived)
             ]);
-            $this->errors[] = $message;
         }
         return $this;
     }
@@ -126,12 +122,13 @@ class Validation extends AbstractValidation implements ValidationInterface
         if ($this->validator->expectNKeys($this->data, $n) === false) {
             $keysReceived = array_keys($this->data);
             natsort($keysReceived);
-            $message = $this->getErrorMessage('expectedN', [
+            $this->errors[] = $this->getErrorMessage('expectedN', [
                 'expectedType' => 'only N keys',
                 'nExpected' => $n,
+                'nExpectedPlural' => $n > 1 ? 's' : '',
+                'nReceivedPlural' => count($keysReceived) > 1 ? 's' : '',
                 'nReceived' => count($keysReceived)
             ]);
-            $this->errors[] = $message;
         }
         return $this;
     }
@@ -144,11 +141,10 @@ class Validation extends AbstractValidation implements ValidationInterface
     public function expectKeyToBeArray(string $key, bool $acceptNull = false)
     {
         if (array_key_exists($key, $this->data) && $this->validator->expectKeyToBeArray($this->data, $key, $acceptNull) === false) {
-            $message = $this->getErrorMessage('type', [
+            $this->errors[] = $this->getErrorMessage('type', [
                 'key' => $key,
                 'expectedType' => 'array',
             ]);
-            $this->errors[] = $message;
         }
         return $this;
     }
@@ -161,11 +157,10 @@ class Validation extends AbstractValidation implements ValidationInterface
     public function expectKeyToBeInteger(string $key, bool $acceptNull = false)
     {
         if (array_key_exists($key, $this->data) && $this->validator->expectKeyToBeInteger($this->data, $key, $acceptNull) === false) {
-            $message = $this->getErrorMessage('type', [
+            $this->errors[] = $this->getErrorMessage('type', [
                 'key' => $key,
                 'expectedType' => 'integer',
             ]);
-            $this->errors[] = $message;
         }
         return $this;
     }
@@ -178,11 +173,10 @@ class Validation extends AbstractValidation implements ValidationInterface
     public function expectKeyToBeFloat(string $key, bool $acceptNull = false)
     {
         if (array_key_exists($key, $this->data) && $this->validator->expectKeyToBeFloat($this->data, $key, $acceptNull) === false) {
-            $message = $this->getErrorMessage('type', [
+            $this->errors[] = $this->getErrorMessage('type', [
                 'key' => $key,
                 'expectedType' => 'float',
             ]);
-            $this->errors[] = $message;
         }
         return $this;
     }
@@ -195,11 +189,10 @@ class Validation extends AbstractValidation implements ValidationInterface
     public function expectKeyToBeString(string $key, bool $acceptNull = false)
     {
         if (array_key_exists($key, $this->data) && $this->validator->expectKeyToBeString($this->data, $key, $acceptNull) === false) {
-            $message = $this->getErrorMessage('type', [
+            $this->errors[] = $this->getErrorMessage('type', [
                 'key' => $key,
                 'expectedType' => 'string',
             ]);
-            $this->errors[] = $message;
         }
         return $this;
     }
@@ -212,11 +205,26 @@ class Validation extends AbstractValidation implements ValidationInterface
     public function expectKeyToBeBoolean(string $key, bool $acceptNull = false)
     {
         if (array_key_exists($key, $this->data) && $this->validator->expectKeyToBeBoolean($this->data, $key, $acceptNull) === false) {
-            $message = $this->getErrorMessage('type', [
+            $this->errors[] = $this->getErrorMessage('type', [
                 'key' => $key,
                 'expectedType' => 'boolean',
             ]);
-            $this->errors[] = $message;
+        }
+        return $this;
+    }
+
+    /**
+     * @param string $key
+     * @param bool $acceptNull
+     * @return $this
+     */
+    public function expectKeyToBeObject(string $key, bool $acceptNull = false)
+    {
+        if (array_key_exists($key, $this->data) && $this->validator->expectKeyToBeObject($this->data, $key, $acceptNull) === false) {
+            $this->errors[] = $this->getErrorMessage('type', [
+                'key' => $key,
+                'expectedType' => 'object',
+            ]);
         }
         return $this;
     }
@@ -282,6 +290,19 @@ class Validation extends AbstractValidation implements ValidationInterface
     {
         foreach ($keys as $key) {
             $this->expectKeyToBeArray($key, $acceptNull);
+        }
+        return $this;
+    }
+
+    /**
+     * @param array $keys
+     * @param bool $acceptNull
+     * @return $this
+     */
+    public function expectKeysToBeObject(array $keys, bool $acceptNull = false)
+    {
+        foreach ($keys as $key) {
+            $this->expectKeyToBeObject($key, $acceptNull);
         }
         return $this;
     }

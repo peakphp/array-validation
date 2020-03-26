@@ -21,4 +21,6 @@ interface ValidatorInterface
     public function expectKeysToBeFloat(array $array, array $keys, bool $acceptNull = false): bool;
     public function expectKeyToBeBoolean(array $array, string $key, bool $acceptNull = false): bool;
     public function expectKeysToBeBoolean(array $array, array $keys, bool $acceptNull = false): bool;
+    public function expectKeyToBeObject(array $array, string $key, bool $acceptNull = false): bool;
+    public function expectKeysToBeObject(array $array, array $keys, bool $acceptNull = false): bool;
 }
