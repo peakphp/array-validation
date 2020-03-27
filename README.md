@@ -91,7 +91,7 @@ if ($validation->hasErrors()) {
 
 ## 5- Create a validation Schema for later usage
 
-Schema is just another way to write validation definitions. This format is ideal when you want to store schemas in file (ex: json, php array file, yml, ...)
+Schema is just another way to write validation definitions. This format is ideal when you want to store schemas in file (ex: json, php array file, yml, etc.)
 
 ```php
 
