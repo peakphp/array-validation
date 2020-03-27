@@ -2,8 +2,12 @@
 
 declare(strict_types=1);
 
+namespace Tests;
+
+use DateTime;
 use \PHPUnit\Framework\TestCase;
 use \Peak\ArrayValidation\Validator;
+use stdClass;
 
 class ValidatorTest extends TestCase
 {

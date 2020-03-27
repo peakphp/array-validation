@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Tests;
+
 use Peak\ArrayValidation\Exception\InvalidStructureException;
 use Peak\ArrayValidation\Exception\InvalidTypeException;
 use Peak\ArrayValidation\StrictValidation;
