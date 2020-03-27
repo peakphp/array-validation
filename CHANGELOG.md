@@ -1,3 +1,10 @@
+VERSION 3.1.1
+-------------
+Release date: 2020-03-27
+
+ - added "autoload-dev" to composer.json (thank you @ordago)
+ - added missing extension "ext-json" to composer.json (thank you @ordago)
+
 VERSION 3.1.0
 -------------
 Release date: 2020-03-26
