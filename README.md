@@ -56,7 +56,7 @@ if ($validation->hasErrors()) {
 
 ```php
 
-$validation = new StrictValidation($arrayToValidate);
+$validation = new StrictValidation($data);
 
 // will throw an exception if any of tests below fail
 $validation
