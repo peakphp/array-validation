@@ -27,7 +27,7 @@ you can afterward check the value of those keys with your business logic without
 ```php
 $validator = new Validator();
 
-if ($validator->expectExactlyKeys($array, $keys) === true) {
+if ($validator->expectExactlyKeys($data, $keys) === true) {
     // ...
 }
 ```
@@ -47,7 +47,8 @@ $validation
     ->expectKeyToBeString('name');
 
 if ($validation->hasErrors()) {
-    // die($validation->getLastError())
+    // $lastError = $validation->getLastError();
+    // $errors = $validation->getErrors();
 }
 ```
 
