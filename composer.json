@@ -17,5 +17,10 @@
         "psr-4": {
             "Peak\\ArrayValidation\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
     }
 }
