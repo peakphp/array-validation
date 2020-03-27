@@ -6,6 +6,7 @@ namespace Tests;
 
 use Peak\ArrayValidation\Validation;
 use \PHPUnit\Framework\TestCase;
+use StdClass;
 
 class ValidationTest extends TestCase
 {
@@ -15,7 +16,7 @@ class ValidationTest extends TestCase
         return [
             [
 
-                ['field1' => [], 'field2' => 'text', 'field3' => 1, 'field4'=> true, 'field5' => 1.2, 'field6' => new \StdClass()], // data
+                ['field1' => [], 'field2' => 'text', 'field3' => 1, 'field4'=> true, 'field5' => 1.2, 'field6' => new StdClass()], // data
                 null, // dataName
                 [ // validation rules
                     'expectOnlyKeys' => [ ['field1', 'field2', 'field3', 'field4', 'field5', 'field6'] ],
@@ -41,7 +42,7 @@ class ValidationTest extends TestCase
 
             // this one will test types errors
             [
-                ['field6' => [], 'field5' => 'text', 'field4' => 1, 'field3'=> true, 'field2' => 1.2, 'field1' => new \StdClass()], // data
+                ['field6' => [], 'field5' => 'text', 'field4' => 1, 'field3'=> true, 'field2' => 1.2, 'field1' => new StdClass()], // data
                 'myValidation', // dataName
                 [ // validation rules
                     'expectKeyToBeArray' => ['field1'],
