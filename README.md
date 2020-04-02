@@ -20,7 +20,7 @@ This is especially useful when dealing with json data request, before using the 
 you can afterward check the value of those keys with your business logic without worrying about the type or presence of any key value.
 
 # How to use
-##### 7 Usages
+##### 8 Usages
 
 ## 1- General validation "à la carte" (stateless)
 
@@ -132,7 +132,6 @@ new StrictValidationFromSchema($schema, $arrayToValidate);
 ```
 
 ## 8- Validation and Strict Validation with ValidationBuilder
-
 
 ```php
 $validation = new ValidationBuilder();
