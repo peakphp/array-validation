@@ -131,6 +131,28 @@ new StrictValidationFromDefinition($validationDefinition, $arrayToValidate);
 new StrictValidationFromSchema($schema, $arrayToValidate);
 ```
 
+## 8- Validation and Strict Validation with ValidationBuilder
+
+
+```php
+$validation = new ValidationBuilder();
+$validation
+    ->expectOnlyKeys(['title', 'content', 'description'])
+    ->expectAtLeastKeys(['title', 'content'])
+    ->expectKeysToBeString(['title', 'content', 'description']);
+
+if ($validation->validate($data) === false)  {
+    // $validation->getErrors();
+    // $validation->getLastError();
+}
+```
+
+and with strict validation:
+
+```php
+//  will throw an exception if any of tests fail
+$validation->strictValidate($data);
+```
 
 # Validation methods
 ```php

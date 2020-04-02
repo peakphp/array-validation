@@ -1,3 +1,9 @@
+VERSION 3.2.0
+-------------
+Release date: 2020-04-02
+
+ - added ValidationBuilder
+
 VERSION 3.1.1
 -------------
 Release date: 2020-03-27
